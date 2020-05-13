@@ -15,94 +15,94 @@ namespace Persistence
                 {
                     new Activity
                     {
-                        Title = "Soccer Match",
+                        Title = "Tour of Science Museum",
                         Date = DateTime.Now.AddMonths(-2),
                         Description = "Activity 2 months ago",
-                        Category = "Soccer",
-                        City = "Hamilton",
-                        Venue = "Westwood School",
+                        Category = "Culture",
+                        City = "Toronto",
+                        Venue = "Toronto Science Museum",
                     },
                     new Activity
                     {
-                        Title = "Beach Vollyball",
+                        Title = "Pub Night",
                         Date = DateTime.Now.AddMonths(-1),
                         Description = "Activity 1 month ago",
-                        Category = "Vollyball",
-                        City = "London",
-                        Venue = "Little Beach",
+                        Category = "drinks",
+                        City = "Hamilton",
+                        Venue = "London Tap House",
                     },
                     new Activity
                     {
-                        Title = "Flag Football",
+                        Title = "Movie Night",
                         Date = DateTime.Now.AddMonths(1),
                         Description = "Activity 1 month in future",
-                        Category = "Football",
-                        City = "Toronto",
-                        Venue = "High Park",
+                        Category = "Film",
+                        City = "London",
+                        Venue = "Westmout Cineplex",
                     },
                     new Activity
                     {
-                        Title = "5k Run",
+                        Title = "Chinese Buffet",
                         Date = DateTime.Now.AddMonths(2),
                         Description = "Activity 2 months in future",
-                        Category = "Running",
-                        City = "Hamilton",
-                        Venue = "Bayfront",
+                        Category = "Food",
+                        City = "London",
+                        Venue = "Mandarin",
                     },
 
                     new Activity
                     {
-                        Title = "Swimming",
+                        Title = "Ski at Blue Mountain",
                         Date = DateTime.Now.AddMonths(3),
                         Description = "Activity 3 months in future",
-                        Category = "Swimming",
-                        City = "London",
-                        Venue = "East Park London",
+                        Category = "Travel",
+                        City = "Blue Mountain",
+                        Venue = "Blue Mountain Lodge",
                     },
                     new Activity
                     {
-                        Title = "Basketball",
+                        Title = "City of Toronto Tour",
                         Date = DateTime.Now.AddMonths(4),
                         Description = "Activity 4 months in future",
-                        Category = "Basketball",
-                        City = "Hamilton",
-                        Venue = "Sir John A School Gym",
+                        Category = "Culture",
+                        City = "Toronto",
+                        Venue = "Toronto",
                     },
                     new Activity
                     {
-                        Title = "Soccer for kids",
+                        Title = "Drinks at Habz",
                         Date = DateTime.Now.AddMonths(5),
                         Description = "Activity 5 months in future",
-                        Category = "Soccer",
+                        Category = "Drinks",
                         City = "London",
-                        Venue = "Bayfront Park",
+                        Venue = "Habz House",
                     },
                     new Activity
                     {
-                        Title = "Baseball",
+                        Title = "Netflix with friends",
                         Date = DateTime.Now.AddMonths(6),
                         Description = "Activity 6 months in future",
-                        Category = "Baseball",
+                        Category = "Film",
                         City = "London",
-                        Venue = "Midpark",
+                        Venue = "Habz House",
                     },
                     new Activity
                     {
-                        Title = "Competeitive Skating",
+                        Title = "East Side Marios",
                         Date = DateTime.Now.AddMonths(7),
                         Description = "Activity 2 months ago",
-                        Category = "Skating",
+                        Category = "Food",
                         City = "London",
-                        Venue = "St. Juliens",
+                        Venue = "East Side Marios",
                     },
                     new Activity
                     {
-                        Title = "Bowling",
+                        Title = "Tiesto Concern",
                         Date = DateTime.Now.AddMonths(8),
                         Description = "Activity 8 months in future",
-                        Category = "Bowling",
+                        Category = "Music",
                         City = "London",
-                        Venue = "Fleetway",
+                        Venue = "London Theatre",
                     }
 
                 };
