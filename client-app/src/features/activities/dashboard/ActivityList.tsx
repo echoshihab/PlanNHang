@@ -4,9 +4,10 @@ import { IActivity } from "../../../app/models/activity";
 
 interface Iprops {
   activities: IActivity[];
+  selectActivity: (id: string) => void;
 }
 
-const ActivityList: React.FC<Iprops> = ({ activities }) => {
+const ActivityList: React.FC<Iprops> = ({ activities, selectActivity }) => {
   return (
     <Segment clearing>
       <Item.Group divided>
@@ -22,7 +23,12 @@ const ActivityList: React.FC<Iprops> = ({ activities }) => {
                 </div>
               </Item.Description>
               <Item.Extra>
-                <Button floated="right" content="View" color="green" />
+                <Button
+                  floated="right"
+                  content="View"
+                  color="green"
+                  onClick={() => selectActivity(activity.id)}
+                />
                 <Label basic content={activity.category} />
               </Item.Extra>
             </Item.Content>
