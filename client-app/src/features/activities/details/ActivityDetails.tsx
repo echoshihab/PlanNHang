@@ -5,10 +5,12 @@ import { IActivity } from "../../../app/models/activity";
 interface Iprops {
   selectedActivity: IActivity;
   setEditMode: (editmode: boolean) => void;
+  setSelectedActivity: (selectedActivity: IActivity | null) => void;
 }
 const ActivityDetails: React.FC<Iprops> = ({
   selectedActivity,
   setEditMode,
+  setSelectedActivity,
 }) => {
   return (
     <Card fluid>
@@ -32,7 +34,12 @@ const ActivityDetails: React.FC<Iprops> = ({
             content="Edit"
             onClick={() => setEditMode(true)}
           />
-          <Button basic color="grey" content="Cancel" />
+          <Button
+            onClick={() => setSelectedActivity(null)}
+            basic
+            color="grey"
+            content="Cancel"
+          />
         </Button.Group>
       </Card.Content>
     </Card>
