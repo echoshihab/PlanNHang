@@ -1,23 +1,22 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useContext } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
 import { IActivity } from "../../../app/models/activity";
 import { v4 as uuid } from "uuid";
+import ActivityStore from "../../../app/stores/activityStore";
+import { observer } from "mobx-react-lite";
 
 interface Iprops {
-  setEditMode: (editMode: boolean) => void;
   activity: IActivity;
-  createActivity: (activity: IActivity) => void;
-  editActivity: (activity: IActivity) => void;
-  submitting: boolean;
 }
 
-const ActivityForm: React.FC<Iprops> = ({
-  setEditMode,
-  editActivity,
-  createActivity,
-  activity: initializeFormState,
-  submitting,
-}) => {
+const ActivityForm: React.FC<Iprops> = ({ activity: initializeFormState }) => {
+  const activityStore = useContext(ActivityStore);
+  const {
+    createActivity,
+    submitting,
+    editActivity,
+    setEditMode,
+  } = activityStore;
   //setting initial state
   const initializeForm = () => {
     if (initializeFormState) {
@@ -106,7 +105,7 @@ const ActivityForm: React.FC<Iprops> = ({
           content="Submit"
         />
         <Button
-          onClick={() => setEditMode(false)}
+          onClick={setEditMode}
           floated="right"
           type="button"
           content="Cancel"
@@ -116,4 +115,4 @@ const ActivityForm: React.FC<Iprops> = ({
   );
 };
 
-export default ActivityForm;
+export default observer(ActivityForm);
