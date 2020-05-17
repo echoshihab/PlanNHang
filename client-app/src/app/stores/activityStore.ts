@@ -43,7 +43,6 @@ class ActivityStore {
           this.activityRegistry.set(activity.id, activity);
         });
       });
-      console.log(this.groupActivitiesByDate(activities));
     } catch (error) {
       console.log(error);
     }
@@ -62,10 +61,11 @@ class ActivityStore {
       this.activity = activity;
     } else {
       this.loadingInitial = true;
+
       try {
         activity = await agent.Activities.details(id);
         runInAction("getting activity", () => {
-          this.selectActivity = activity;
+          this.activity = activity;
         });
       } catch (error) {
         console.log(error);
