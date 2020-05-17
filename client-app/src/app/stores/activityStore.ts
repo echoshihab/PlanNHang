@@ -83,17 +83,20 @@ class ActivityStore {
     this.submitting = false;
   };
 
-  @action deleteActivity = (
+  @action deleteActivity = async (
     event: SyntheticEvent<HTMLButtonElement>,
     id: string
   ) => {
     this.submitting = true;
     this.target = event.currentTarget.name;
-    agent.Activities.delete(id)
-      .then(() => {
-        this.activities = this.activities.filter((a) => a.id !== id);
-      })
-      .then(() => (this.submitting = false));
+    try {
+      await agent.Activities.delete(id);
+      this.activityRegistry.delete(id);
+    } catch (error) {
+      console.log(error);
+    }
+    this.target = "";
+    this.submitting = false;
   };
 }
 
