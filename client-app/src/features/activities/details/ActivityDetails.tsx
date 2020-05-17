@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Card, Image, Button } from "semantic-ui-react";
 import ActivityStore from "../../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, Link } from "react-router-dom";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 interface DetailParams {
@@ -11,6 +11,7 @@ interface DetailParams {
 
 const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
+  history,
 }) => {
   const activityStore = useContext(ActivityStore);
   const {
@@ -23,7 +24,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
 
   useEffect(() => {
     loadActivity(match.params.id);
-  }, [loadActivity]);
+  }, [loadActivity, match.params.id]);
 
   if (loadingInitial || !activity)
     return <LoadingComponent content="Loading Activity..." />;
@@ -48,10 +49,11 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
             basic
             color="blue"
             content="Edit"
-            onClick={() => openEditForm(activity!.id)}
+            as={Link}
+            to={`/manage/${activity.id}`}
           />
           <Button
-            onClick={cancelSelectedActivity}
+            onClick={() => history.push("/activities")}
             basic
             color="grey"
             content="Cancel"
