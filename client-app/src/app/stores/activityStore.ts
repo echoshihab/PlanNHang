@@ -7,11 +7,8 @@ configure({ enforceActions: "always" });
 
 class ActivityStore {
   @observable activityRegistry = new Map();
-
-  @observable activities: IActivity[] = [];
   @observable activity: IActivity | null = null;
   @observable loadingInitial = false;
-  @observable editMode = false;
   @observable submitting = false;
   @observable target = "";
 
@@ -41,7 +38,6 @@ class ActivityStore {
 
   @action selectActivity = (id: string) => {
     this.activity = this.activityRegistry.get(id);
-    this.editMode = false;
   };
 
   @action loadActivity = async (id: string) => {
@@ -72,31 +68,12 @@ class ActivityStore {
     return this.activityRegistry.get(id);
   };
 
-  @action openCreateForm = () => {
-    this.activity = null;
-    this.editMode = true;
-  };
-
-  @action openEditForm = (id: string) => {
-    this.selectActivity = this.activityRegistry.get(id);
-    this.editMode = true;
-  };
-
-  @action cancelSelectedActivity = () => {
-    this.activity = null;
-  };
-
-  @action cancelFormOpen = () => {
-    this.editMode = false;
-  };
-
   @action createActivity = async (activity: IActivity) => {
     this.submitting = true;
     try {
       await agent.Activities.create(activity);
       runInAction("create activity", () => {
         this.activityRegistry.set(activity.id, activity);
-        this.editMode = false;
       });
     } catch (error) {
       console.log(error);
@@ -113,7 +90,6 @@ class ActivityStore {
       runInAction(() => {
         this.activityRegistry.set(activity.id, activity);
         this.activity = activity;
-        this.editMode = false;
       });
     } catch (error) {
       console.log(error);

@@ -1,14 +1,26 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Grid } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
-import ActivityDetails from "../details/ActivityDetails";
-import ActivityForm from "../form/ActivityForm";
-import ActivityStore from "../../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
+import ActivityStore from "../../../app/stores/activityStore";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 const ActivityDashboard = () => {
+  //store
   const activityStore = useContext(ActivityStore);
-  const { editMode, activity } = activityStore;
+
+  //effects
+  useEffect(() => {
+    activityStore.loadActivities();
+  }, [activityStore]);
+
+  if (activityStore.loadingInitial)
+    return (
+      <LoadingComponent
+        content="
+    Loading activities..."
+      />
+    );
   return (
     <Grid>
       <Grid.Column width={10}>

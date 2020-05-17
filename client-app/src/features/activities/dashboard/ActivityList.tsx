@@ -8,7 +8,6 @@ const ActivityList = () => {
   const activityStore = useContext(ActivityStore);
   const {
     activitiesByDate,
-    selectActivity,
     deleteActivity,
     target,
     submitting,
