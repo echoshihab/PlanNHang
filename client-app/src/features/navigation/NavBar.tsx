@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Menu, Container, Button } from "semantic-ui-react";
 import ActivityStore from "../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
+import { Link, NavLink } from "react-router-dom";
 
 const NavBar = () => {
   const activityStore = useContext(ActivityStore);
@@ -9,7 +10,7 @@ const NavBar = () => {
   return (
     <Menu fixed="top" inverted pointing>
       <Container>
-        <Menu.Item header>
+        <Menu.Item header as={NavLink} exact to="/">
           <img
             src="/assets/logo.png"
             alt="logo"
@@ -17,12 +18,9 @@ const NavBar = () => {
           />
           PlanNHang
         </Menu.Item>
-        <Menu.Item name="Activities" />
+        <Menu.Item name="Activities" as={NavLink} to="/activities" />
         <Menu.Item>
-          <Button
-            content="Create Activity"
-            onClick={activityStore.openCreateForm}
-          />
+          <Button content="Create Activity" as={NavLink} to="/createActivity" />
         </Menu.Item>
       </Container>
     </Menu>
