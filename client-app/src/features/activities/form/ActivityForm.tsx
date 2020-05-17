@@ -15,7 +15,7 @@ const ActivityForm: React.FC<Iprops> = ({ activity: initializeFormState }) => {
     createActivity,
     submitting,
     editActivity,
-    setEditMode,
+    cancelFormOpen,
   } = activityStore;
   //setting initial state
   const initializeForm = () => {
@@ -105,7 +105,7 @@ const ActivityForm: React.FC<Iprops> = ({ activity: initializeFormState }) => {
           content="Submit"
         />
         <Button
-          onClick={setEditMode}
+          onClick={cancelFormOpen}
           floated="right"
           type="button"
           content="Cancel"

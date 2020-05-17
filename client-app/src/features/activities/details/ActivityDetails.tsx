@@ -7,8 +7,8 @@ const ActivityDetails = () => {
   const activityStore = useContext(ActivityStore);
   const {
     selectedActivity: activity,
-    selectActivity,
-    setEditMode,
+    openEditForm,
+    cancelSelectedActivity,
   } = activityStore;
   return (
     <Card fluid>
@@ -30,10 +30,10 @@ const ActivityDetails = () => {
             basic
             color="blue"
             content="Edit"
-            onClick={() => setEditMode}
+            onClick={() => openEditForm(activity!.id)}
           />
           <Button
-            onClick={() => selectActivity}
+            onClick={cancelSelectedActivity}
             basic
             color="grey"
             content="Cancel"
