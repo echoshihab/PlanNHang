@@ -1,6 +1,7 @@
 import React from "react";
 import "mobx-react-lite/batchingForReactDom";
 import ReactDOM from "react-dom";
+import "react-toastify/dist/ReactToastify.min.css";
 import "./app/layout/styles.css";
 import App from "./app/layout/App";
 import * as serviceWorker from "./serviceWorker";
