@@ -1,12 +1,16 @@
 import React, { useState, FormEvent, useContext, useEffect } from "react";
 import { Segment, Form, Button, Grid } from "semantic-ui-react";
-import { IActivity } from "../../../app/models/activity";
+import { IActivityFormValues } from "../../../app/models/activity";
 import { v4 as uuid } from "uuid";
 import ActivityStore from "../../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
 import { Form as FinalForm, Field } from "react-final-form";
 import TextInput from "../../../app/common/form/TextInput";
+import TextAreaInput from "../../../app/common/form/TextAreaInput";
+import SelectInput from "./SelectInput";
+import { category } from "../../../app/common/options/categoryOptions";
+import DateInput from "../../../app/common/form/DateInput";
 
 interface DetailsParams {
   id: string;
@@ -28,19 +32,20 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParams>> = ({
 
   //setting initial state for form
 
-  const [activity, setActivity] = useState<IActivity>({
-    id: "",
+  const [activity, setActivity] = useState<IActivityFormValues>({
+    id: undefined,
     title: "",
     category: "",
     description: "",
-    date: "",
+    date: undefined,
+    time: undefined,
     city: "",
     venue: "",
   });
 
   //load activity
   useEffect(() => {
-    if (match.params.id && activity.id.length === 0) {
+    if (match.params.id && activity.id) {
       loadActivity(match.params.id).then(
         () => initialFormState && setActivity(initialFormState)
       );
@@ -53,16 +58,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParams>> = ({
     clearActivity,
     match.params.id,
     initialFormState,
-    activity.id.length,
+    activity.id,
   ]);
 
   //handlers
-  const handleInputChange = (
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.currentTarget;
-    setActivity({ ...activity, [name]: value });
-  };
 
   // const handleSubmit = () => {
   //   if (activity.id.length === 0) {
@@ -98,36 +97,48 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParams>> = ({
                   value={activity.title}
                   component={TextInput}
                 />
-                <Form.TextArea
+                <Field
                   placeholder="Description"
                   name="description"
+                  rows={3}
                   value={activity.description}
-                  onChange={handleInputChange}
+                  component={TextAreaInput}
                 />
-                <Form.Input
+                <Field
                   placeholder="Category"
                   name="category"
+                  options={category}
                   value={activity.category}
-                  onChange={handleInputChange}
+                  component={SelectInput}
                 />
-                <Form.Input
-                  type="datetime-local"
-                  placeholder="Date"
-                  name="date"
-                  value={activity.date}
-                  onChange={handleInputChange}
-                />
-                <Form.Input
+                <Form.Group widths="equal">
+                  <Field
+                    component={DateInput}
+                    placeholder="Date"
+                    date={true}
+                    name="date"
+                    value={activity.date}
+                  />
+                  <Field
+                    component={DateInput}
+                    placeholder="Time"
+                    name="time"
+                    time={true}
+                    value={activity.date}
+                  />
+                </Form.Group>
+
+                <Field
                   placeholder="City"
                   name="city"
                   value={activity.city}
-                  onChange={handleInputChange}
+                  component={TextInput}
                 />
-                <Form.Input
+                <Field
                   placeholder="Venue"
                   name="venue"
                   value={activity.venue}
-                  onChange={handleInputChange}
+                  component={TextInput}
                 />
                 <Button
                   loading={submitting}
@@ -139,7 +150,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParams>> = ({
                 <Button
                   onClick={() =>
                     history.push(
-                      activity.id.length === 0
+                      activity.id
                         ? "/activities/"
                         : `/activities/${activity.id}`
                     )
