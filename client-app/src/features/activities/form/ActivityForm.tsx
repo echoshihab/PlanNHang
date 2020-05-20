@@ -12,6 +12,27 @@ import SelectInput from "./SelectInput";
 import { category } from "../../../app/common/options/categoryOptions";
 import DateInput from "../../../app/common/form/DateInput";
 import { combineDateAndTime } from "../../../app/common/util/util";
+import {
+  combineValidators,
+  isRequired,
+  composeValidators,
+  hasLengthGreaterThan,
+} from "revalidate";
+
+const validate = combineValidators({
+  title: isRequired({ message: "Title is required" }),
+  category: isRequired("Category"),
+  description: composeValidators(
+    isRequired("Description"),
+    hasLengthGreaterThan(4)({
+      message: "Description needs to be atleast 5 characters",
+    })
+  )(),
+  city: isRequired("City"),
+  venue: isRequired("Venue"),
+  date: isRequired("Date"),
+  time: isRequired("Time"),
+});
 
 interface DetailsParams {
   id: string;
@@ -67,9 +88,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParams>> = ({
       <Grid.Column width={10}>
         <Segment clearing>
           <FinalForm
+            validate={validate}
             initialValues={activity}
             onSubmit={handleFinalFormSubmit}
-            render={({ handleSubmit }) => (
+            render={({ handleSubmit, invalid, pristine }) => (
               <Form onSubmit={handleSubmit} loading={loading}>
                 <Field
                   placeholder="Title"
@@ -126,7 +148,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailsParams>> = ({
                   positive
                   type="submit"
                   content="Submit"
-                  disabled={loading}
+                  disabled={loading || invalid || pristine}
                 />
                 <Button
                   onClick={
