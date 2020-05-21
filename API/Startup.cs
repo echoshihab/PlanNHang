@@ -52,6 +52,8 @@ namespace API
             identityBuilder.AddEntityFrameworkStores<ApplicationDbContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
+            services.AddAuthentication();
+
 
         }
 
