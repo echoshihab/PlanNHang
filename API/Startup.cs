@@ -1,9 +1,11 @@
 using API.Middleware;
 using Application.Activities;
+using Domain;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +44,14 @@ namespace API
                     {
                         config.RegisterValidatorsFromAssemblyContaining<Create>();
                     });
+
+            //identity configs
+            var builder = services.AddIdentityCore<AppUser>();  //role services are not installed but can be added
+
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<ApplicationDbContext>();
+            identityBuilder.AddSignInManager<SignInManager<AppUser>>();
+
 
         }
 
