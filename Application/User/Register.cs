@@ -31,7 +31,7 @@ namespace Application.User
             {
                 RuleFor(x => x.DisplayName).NotEmpty();
                 RuleFor(x => x.UserName).NotEmpty();
-                RuleFor(x => x.Email).EmailAddress();
+                RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).Password();
 
 

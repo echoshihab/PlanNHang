@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Form as FinalForm, Field } from "react-final-form";
-import { Form, Button, Label, Header } from "semantic-ui-react";
+import { Form, Button, Header } from "semantic-ui-react";
 import TextInput from "../../app/common/form/TextInput";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { IUserFormValues } from "../../app/models/user";
@@ -9,8 +9,8 @@ import { combineValidators, isRequired } from "revalidate";
 import ErrorMessage from "../../app/common/form/ErrorMessage";
 
 const validate = combineValidators({
-  username: isRequired("username"),
-  displayName: isRequired("display name"),
+  userName: isRequired("Username"),
+  displayName: isRequired("Display Name"),
   email: isRequired("email"),
   password: isRequired("password"),
 });
@@ -57,16 +57,13 @@ const RegisterForm = () => {
             placeholder="Password"
           />
           {submitError && !dirtySinceLastSubmit && (
-            <ErrorMessage
-              error={submitError}
-              text="Invalid email or password"
-            />
+            <ErrorMessage error={submitError} />
           )}
           <Button
             disabled={(invalid && !dirtySinceLastSubmit) || pristine}
             loading={submitting}
             color="teal"
-            content="Login"
+            content="Register"
             fluid
           />
         </Form>
