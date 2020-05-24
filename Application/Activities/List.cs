@@ -25,10 +25,12 @@ namespace Application.Activities
             }
             public async Task<List<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activities = await _db.Activities
-                .Include(x => x.UserActivities)
-                .ThenInclude(x => x.AppUser)
-                .ToListAsync();
+                var activities = await _db.Activities.ToListAsync();
+
+                //eager loading
+                // .Include(x => x.UserActivities)
+                // .ThenInclude(x => x.AppUser)
+                // .ToListAsync();
 
                 return _mapper.Map<List<Activity>, List<ActivityDto>>(activities);
             }

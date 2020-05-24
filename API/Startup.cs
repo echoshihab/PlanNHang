@@ -36,6 +36,7 @@ namespace API
         {
             services.AddDbContext<ApplicationDbContext>(opt =>
             {
+                opt.UseLazyLoadingProxies();
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddCors(opt =>
