@@ -13,14 +13,25 @@ namespace Persistence
 
 
         public DbSet<Activity> Activities { get; set; }
+        public DbSet<UserActivity> UserActivities { get; set; }
 
-        //seed data
 
-
-        //this allows us to give our appuser a primary key of a string during migration
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<UserActivity>(x => x.HasKey(ua => new { ua.AppUserId, ua.ActivityId }));
+
+            builder.Entity<UserActivity>()
+                .HasOne(u => u.AppUser)
+                .WithMany(a => a.UserActivities)
+                .HasForeignKey(u => u.AppUserId);
+
+
+            builder.Entity<UserActivity>()
+                .HasOne(a => a.Activity)
+                .WithMany(a => a.UserActivities)
+                .HasForeignKey(a => a.ActivityId);
         }
     }
 
