@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Tab, Header, Card, Image, Button, Grid } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
+import PhotoUploadWidget from "../../app/common/photoUpload/PhotoUploadWidget";
 
 const ProfilePhotos = () => {
   const rootStore = useContext(RootStoreContext);
@@ -23,7 +24,7 @@ const ProfilePhotos = () => {
         </Grid.Column>
         <Grid.Column width={16}>
           {addPhotoMode ? (
-            <p>Photo widget will go here</p>
+            <PhotoUploadWidget />
           ) : (
             <Card.Group itemsPerRow={5}>
               {profile &&
