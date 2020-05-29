@@ -97,4 +97,25 @@ export default class ProfileStore {
       });
     }
   };
+
+  @action updateProfile = async (profile: Partial<IProfile>) => {
+    try {
+      this.loadingProfile = true;
+      await agent.Profiles.updateProfile(profile);
+      runInAction(() => {
+        if (
+          profile.displayName !== this.rootStore.userStore.user!.displayName
+        ) {
+          this.rootStore.userStore.user!.displayName = profile.displayName!;
+        }
+        this.profile = { ...this.profile!, ...profile };
+        this.loadingProfile = false;
+      });
+    } catch (error) {
+      toast.error("Problem updating profile");
+      runInAction(() => {
+        this.loadingProfile = false;
+      });
+    }
+  };
 }
