@@ -17,6 +17,7 @@ namespace Domain
         // eager loading : public ICollection<UserActivity> UserActivities { get; set; }
 
         public virtual ICollection<UserActivity> UserActivities { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
 
     }
