@@ -38,7 +38,7 @@ export default class ActivityStore {
     this.hubConnection
       .start()
       .then(() => console.log(this.hubConnection!.state))
-      .catch((error) => console.log("Error establishig connection: ", error));
+      .catch((error) => console.log("Error establishing connection: ", error));
 
     //as configured in chathub in server (using ReceiveComment)
 
@@ -54,6 +54,7 @@ export default class ActivityStore {
   };
 
   @action addComment = async (values: any) => {
+    console.log(values);
     values.activityId = this.activity!.id;
     try {
       //invoke must match the chathub method name ('SendComment')

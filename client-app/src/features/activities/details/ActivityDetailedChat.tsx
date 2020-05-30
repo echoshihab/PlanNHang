@@ -57,7 +57,7 @@ const ActivityDetailedChat = () => {
             render={({ handleSubmit, submitting, form }) => (
               <Form onSubmit={() => handleSubmit()!.then(() => form.reset())}>
                 <Field
-                  name="body"
+                  name="body" //this is important since this is what comment dto is expecting
                   component={TextAreaInput}
                   rows={2}
                   placeholder="Add your coomment"
