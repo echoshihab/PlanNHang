@@ -26,7 +26,8 @@ export default class ActivityStore {
   @observable loading = false;
   @observable.ref hubConnection: HubConnection | null = null; //only need reference not deep level
 
-  @action createHubConnection = () => {
+  @action createHubConnection = (activityId: string) => {
+    console.log("is create hub connection firing");
     this.hubConnection = new HubConnectionBuilder()
       .withUrl("http://localhost:5000/chat", {
         //this sets the ['access_token'] in startup
@@ -38,6 +39,12 @@ export default class ActivityStore {
     this.hubConnection
       .start()
       .then(() => console.log(this.hubConnection!.state))
+      .then(() => {
+        //we have to check connected status here due to bug https://github.com/dotnet/aspnetcore/issues/13276
+        if (this.hubConnection!.state === "Connected") {
+          this.hubConnection!.invoke("AddToGroup", activityId);
+        }
+      })
       .catch((error) => console.log("Error establishing connection: ", error));
 
     //as configured in chathub in server (using ReceiveComment)
@@ -47,10 +54,19 @@ export default class ActivityStore {
         this.activity!.comments.push(comment);
       });
     });
+
+    this.hubConnection.on("Send", (message) => {
+      toast.info(message);
+    });
   };
 
   @action stopHubConnection = () => {
-    this.hubConnection?.stop();
+    this.hubConnection!.invoke("RemoveFromGroup", this.activity!.id)
+      .then(() => {
+        this.hubConnection!.stop();
+      })
+      .then(() => console.log("Connection stopped"))
+      .catch((err) => console.log(err));
   };
 
   @action addComment = async (values: any) => {

@@ -52,7 +52,7 @@ namespace API.SignalR
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
             string userName = GetUserName();
 
-            await Clients.Group(groupName).SendAsync("Send", $"{userName} has joined the group");
+            await Clients.Group(groupName).SendAsync("Send", $"{userName} has left the group");
         }
 
 
