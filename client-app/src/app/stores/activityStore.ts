@@ -40,6 +40,7 @@ export default class ActivityStore {
       .then(() => console.log(this.hubConnection!.state))
       .catch((error) => console.log("Error establishig connection: ", error));
 
+    //as configured in chathub in server (using ReceiveComment)
     this.hubConnection.on("ReceiveComment", (comment) => {
       this.activity!.comments.push(comment);
     });
@@ -47,6 +48,16 @@ export default class ActivityStore {
 
   @action stopHubConnection = () => {
     this.hubConnection?.stop();
+  };
+
+  @action addComment = async (values: any) => {
+    values.activityId = this.activity!.id;
+    try {
+      //invoke must match the chathub method name ('SendComment')
+      await this.hubConnection!.invoke("SendComment", values);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   @computed get activitiesByDate() {
