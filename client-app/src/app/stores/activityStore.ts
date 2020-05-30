@@ -41,8 +41,11 @@ export default class ActivityStore {
       .catch((error) => console.log("Error establishig connection: ", error));
 
     //as configured in chathub in server (using ReceiveComment)
+
     this.hubConnection.on("ReceiveComment", (comment) => {
-      this.activity!.comments.push(comment);
+      runInAction(() => {
+        this.activity!.comments.push(comment);
+      });
     });
   };
 
@@ -147,6 +150,7 @@ export default class ActivityStore {
       let attendees = [];
       attendees.push(attendee);
       activity.attendees = attendees;
+      activity.comments = [];
       activity.isHost = true;
       runInAction("create activity", () => {
         this.activityRegistry.set(activity.id, activity);
