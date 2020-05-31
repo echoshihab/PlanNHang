@@ -4,14 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
-using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Followers
 {
-    public class Add
+    public class Delete
     {
         public class Command : IRequest
         {
@@ -43,20 +42,16 @@ namespace Application.Followers
                 var following = await _db.Followings
                 .SingleOrDefaultAsync(x => x.ObserverId == observer.Id && x.TargetId == target.Id);
 
-                if (following != null)
-                    throw new RestException(HttpStatusCode.BadRequest
-                    , new { User = "You are already following this user" });
-
                 if (following == null)
-                {
-                    following = new UserFollowing
-                    {
-                        Observer = observer,
-                        Target = target
-                    };
-                    _db.Followings.Add(following);
-                }
+                    throw new RestException(HttpStatusCode.BadRequest
+                    , new { User = "You are not following this user" });
 
+                if (following != null)
+                {
+
+                    _db.Followings.Remove(following);
+
+                }
 
                 //handler logic
                 var success = await _db.SaveChangesAsync() > 0;
