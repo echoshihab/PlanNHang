@@ -91,7 +91,7 @@ export default class ProfileStore {
         this.loading = false;
       });
     } catch (error) {
-      toast.error("Prohblem deleting the photo");
+      toast.error("Problem deleting the photo");
       runInAction(() => {
         this.loading = false;
       });
