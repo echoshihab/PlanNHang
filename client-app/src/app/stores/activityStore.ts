@@ -27,7 +27,6 @@ export default class ActivityStore {
   @observable.ref hubConnection: HubConnection | null = null; //only need reference not deep level
 
   @action createHubConnection = (activityId: string) => {
-    console.log("is create hub connection firing");
     this.hubConnection = new HubConnectionBuilder()
       .withUrl("http://localhost:5000/chat", {
         //this sets the ['access_token'] in startup
