@@ -1,4 +1,11 @@
-import { observable, action, computed, runInAction, reaction } from "mobx";
+import {
+  observable,
+  action,
+  computed,
+  runInAction,
+  reaction,
+  toJS,
+} from "mobx";
 import { SyntheticEvent } from "react";
 import { IActivity } from "../models/activity";
 import agent from "../api/agent";
@@ -173,9 +180,12 @@ export default class ActivityStore {
   @action loadActivity = async (id: string) => {
     let activity = this.getActivity(id);
     if (activity) {
-      this.activity = activity;
+      this.activity = activity; //this causes issue when reinitialzing manage form due to
+      //mobx strict mode - modifying observerable outside of runinaction
+      //lets turn this into plain js with toJS form, so we are not sending observable
+      //just deep clone of the object
 
-      return activity; //for activity form use effect
+      return toJS(activity); //for activity form use effect
     } else {
       this.loadingInitial = true;
 
