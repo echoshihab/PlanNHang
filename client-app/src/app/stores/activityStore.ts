@@ -81,7 +81,7 @@ export default class ActivityStore {
 
   @action createHubConnection = (activityId: string) => {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl("http://localhost:5000/chat", {
+      .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
         //this sets the ['access_token'] in startup
         accessTokenFactory: () => this.rootStore.commonStore.token!,
       })
