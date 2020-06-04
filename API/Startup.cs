@@ -37,6 +37,8 @@ namespace API
 
         public IConfiguration Configuration { get; }
 
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -127,10 +129,12 @@ namespace API
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
         }
 
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<ErrorHandlingMiddleware>(); //exception catching should always be at top
             if (env.IsDevelopment())
 
             {
@@ -143,6 +147,9 @@ namespace API
 
             //cors settings end
 
+            //serve react build files as static files here
+            app.UseDefaultFiles(); //this will look for index.html in our wwwrootfolder
+            app.UseStaticFiles();
 
             app.UseRouting();
             app.UseCors("CorsPolicy");
@@ -154,6 +161,8 @@ namespace API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
+                //any route that api is not aware of will be handed off to react here
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
 
 
