@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -53,11 +54,16 @@ namespace Application.User
 
                 if (result.Succeeded)
                 {
-                    //generate tocken
+                    user.RefreshToken = _jwtGenerator.GenerateRefreshToken();
+                    user.RefreshTokenExpiry = DateTime.Now.AddDays(30);
+
+                    await _userManager.UpdateAsync(user);
+                    //generate token
                     return new User
                     {
                         DisplayName = user.DisplayName,
                         Token = _jwtGenerator.CreateToken(user),
+                        RefreshToken = user.RefreshToken,
                         UserName = user.UserName,
                         Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
                     };
