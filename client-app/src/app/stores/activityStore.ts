@@ -18,6 +18,7 @@ import {
   HubConnectionBuilder,
   LogLevel,
 } from "@microsoft/signalr";
+import jwt from "jsonwebtoken";
 
 const LIMIT = 2;
 
@@ -83,7 +84,7 @@ export default class ActivityStore {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(process.env.REACT_APP_API_CHAT_URL!, {
         //this sets the ['access_token'] in startup
-        accessTokenFactory: () => this.rootStore.commonStore.token!,
+        accessTokenFactory: () => this.checkTokenAndRefreshIfExpired(),
       })
       .configureLogging(LogLevel.Information)
       .build();
@@ -112,6 +113,24 @@ export default class ActivityStore {
     });
   };
 
+  checkTokenAndRefreshIfExpired = async () => {
+    const token = localStorage.getItem("jwt");
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (token && refreshToken) {
+      const decodedToken: any = jwt.decode(token);
+      if (decodedToken && Date.now() >= decodedToken.exp * 1000 - 5000) {
+        try {
+          console.log("trying to use refresh token");
+          return await agent.User.refreshToken(token, refreshToken);
+        } catch (error) {
+          toast.error("Problem connecting to the chat");
+        }
+      } else {
+        return token;
+      }
+    }
+  };
+
   @action stopHubConnection = () => {
     this.hubConnection!.invoke("RemoveFromGroup", this.activity!.id)
       .then(() => {
@@ -122,7 +141,6 @@ export default class ActivityStore {
   };
 
   @action addComment = async (values: any) => {
-    console.log(values);
     values.activityId = this.activity!.id;
     try {
       //invoke must match the chathub method name ('SendComment')

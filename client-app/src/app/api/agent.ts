@@ -114,6 +114,14 @@ const User = {
     requests.post(`/user/login`, user),
   register: (user: IUserFormValues): Promise<IUser> =>
     requests.post(`/user/register`, user),
+  refreshToken: (token: string, refreshToken: string) => {
+    return axios.post(`/user/refresh`, { token, refreshToken }).then((res) => {
+      window.localStorage.setItem("jwt", res.data.token);
+      window.localStorage.setItem("refreshToken", res.data.refreshToken);
+      axios.defaults.headers.Authorization = `Bearer ${res.data.token}`;
+      return res.data.token;
+    });
+  },
 };
 
 const Profiles = {
