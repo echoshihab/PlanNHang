@@ -61,7 +61,9 @@ namespace Application.User
                 {
                     DisplayName = request.DisplayName,
                     Email = request.Email,
-                    UserName = request.UserName
+                    UserName = request.UserName,
+                    RefreshToken = _jwtGenerator.GenerateRefreshToken(),
+                    RefreshTokenExpiry = DateTime.Now.AddDays(30)
                 };
 
 
@@ -74,6 +76,7 @@ namespace Application.User
                     {
                         DisplayName = user.DisplayName,
                         Token = _jwtGenerator.CreateToken(user),
+                        RefreshToken = user.RefreshToken,
                         UserName = user.UserName,
                         Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
 

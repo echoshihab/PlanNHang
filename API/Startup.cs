@@ -102,7 +102,7 @@ namespace API
                     ValidateAudience = false,
                     ValidateIssuer = false,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero //removes the 5 min leeway of validatelifetime
+                    ClockSkew = TimeSpan.Zero //removes the 5 min leeway of validatelifetime, remove this in production
 
                 };
                 opt.Events = new JwtBearerEvents
